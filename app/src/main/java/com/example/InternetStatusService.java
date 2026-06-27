@@ -85,15 +85,15 @@ public class InternetStatusService extends Service {
             @Override
             public void run() {
                 boolean hasInternet = hasActualInternetAccess();
+                getSharedPreferences("ServicePrefs", Context.MODE_PRIVATE)
+                    .edit().putBoolean("last_known_status", hasInternet).apply();
                 if (hasInternet != lastStatus) {
                     lastStatus = hasInternet;
                     updateNotification(hasInternet);
-                    
-                    // Broadcast to MainActivity if active
-                    Intent intent = new Intent("com.example.INTERNET_STATUS_UPDATE");
-                    intent.putExtra("status", hasInternet);
-                    sendBroadcast(intent);
                 }
+                Intent intent = new Intent("com.example.INTERNET_STATUS_UPDATE");
+                intent.putExtra("status", hasInternet);
+                sendBroadcast(intent);
             }
         }).start();
     }

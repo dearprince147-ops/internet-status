@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
             var isServiceEnabled by remember { 
                 mutableStateOf(prefs.getBoolean("service_enabled", false)) 
             }
-            var isConnected by remember { mutableStateOf(false) }
+            var isConnected by remember { mutableStateOf(prefs.getBoolean("last_known_status", false)) }
 
             // Broadcast Receiver for internet status
             DisposableEffect(Unit) {
