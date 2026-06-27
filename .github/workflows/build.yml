@@ -35,13 +35,8 @@ jobs:
           name: app-apk
           path: app/build/outputs/apk/debug/app-debug.apk
 
-      - name: Get current date
-        id: date
-        run: echo "date=2026-06-27-0842" >> 
-
       - name: Delete old release if exists
-        run: |
-          gh release delete latest-build --yes || true
+        run: gh release delete latest-build --yes || true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -52,20 +47,13 @@ jobs:
           name: "Internet Status - Latest Build"
           body: |
             ## Internet Status App
-            Automatically built from latest commit on ${{ steps.date.outputs.date }}
+            Built from latest commit.
 
             ### Install
-            1. Download `internet-status.apk` below
-            2. Enable **Install from unknown sources** on your device
+            1. Download internet-status.apk below
+            2. Enable Install from unknown sources on your device
             3. Open the APK and install
-
-            ### Whats included
-            - Real internet connectivity check via generate_204
-            - Persistent notification with green/red dot
-            - Auto start on boot
-            - Light, True Black AMOLED and Dark Grey themes
           files: app/build/outputs/apk/debug/app-debug.apk
-          fail_on_unmatched_files: true
-          make_latest: true
+          make_latest: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
