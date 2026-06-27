@@ -1,0 +1,6 @@
+{
+  "name": "Internet Status",
+  "description": "Monitors real internet access in a lightweight foreground service and updates a persistent notification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
