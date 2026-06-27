@@ -99,19 +99,20 @@ public class InternetStatusService extends Service {
     }
 
     private boolean hasActualInternetAccess() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            try {
-                Socket sock = new Socket();
-                sock.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
-                sock.close();
-                return true;
-            } catch (IOException e) {
-                return false;
-            }
+        try {
+            java.net.HttpURLConnection conn = (java.net.HttpURLConnection)
+                new java.net.URL("https://clients3.google.com/generate_204").openConnection();
+            conn.setConnectTimeout(2000);
+            conn.setReadTimeout(2000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "Android");
+            conn.connect();
+            int responseCode = conn.getResponseCode();
+            conn.disconnect();
+            return responseCode == 204;
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
 
     private void createNotificationChannel() {
